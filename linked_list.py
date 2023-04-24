@@ -48,8 +48,10 @@ class List:
             raise EmptyListError("Empty list has no next.")
         if isinstance(value, Node) or value is None:
             self.head.next = value
+        if isinstance(value, List):
+            self.head.next = value.head
         else:
-            raise TypeError(f"next must be of type Node or None, not {type(value)}.")
+            raise TypeError(f"next must be of type List, Node or None, not {type(value)}.")
 
     @property
     def value(self):
