@@ -28,6 +28,25 @@ def random_list(length: int):
         new_list.prepend(randint(1, 100))
     return new_list
 
+def List_reduce(lst: List, func, init):
+    if lst.is_empty():
+        return init
+    return func(lst.value,
+                List_reduce(lst.next, func, init))
 
+def List_map(lst: List, func):
+    if lst.is_empty():
+        return List()
+    l = List()
+    l.value = func(lst.value)
+    l.next = List_map(lst.next, func)
+    return l
+
+def is_sorted(lst: List) -> bool:
+    while (not lst.is_empty()) and not lst.next.is_empty():
+        if lst.value > lst.next.value:
+            return False
+        lst = lst.next
+    return True
 
 
