@@ -84,6 +84,16 @@ class List:
         elements = list(map(repr, list(self)))
         return "List(Node(" + ", Node(".join(elements) + ")"*(len(elements)+1)
 
+    def __len__(self) -> int:
+        if self.is_empty():
+            return 0
+        length = 0
+        p = self.head
+        while p is not None:
+            p = p.suivant
+            length += 1
+        return length
+
     def __iter__(self):
         """
         Tests:
