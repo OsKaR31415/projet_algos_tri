@@ -19,13 +19,37 @@ class List:
             True
             >>> List().head is None  # empty list : head is None
             True
+            >>> A = List([7, 8, 9, 10, 11])
+            >>> A.head.value
+            7
+            >>> A.head.next.value
+            8
+            >>> A.head.next.next.value
+            9
+            >>> A.head.next.next.next.value
+            10
+            >>> A.head.next.next.next.next.value
+            11
         """
         if isinstance(head, Node) or head is None:
             self._head = head
         elif isinstance(head, List):
             self._head = head.head
         else:
-            raise TypeError(f"next must be of type Node or List, not {type(next)}.")
+            try:
+                head_iterator = iter(head)  # test if head is iterable
+                self.__init_from_iterable__(head_iterator)
+            except:
+                raise TypeError(f"next must be of type Node or List or iterable, not {type(next)}.")
+
+    def __init_from_iterable__(self, iterable: iter) -> None:
+        self._head = Node(None)  # node with useless contents
+        tail = self._head  # last node of self._head
+        for element in iterable:
+            tail.next = Node(element)
+            tail = tail.next
+        # remove the first element, None, that is useless
+        self._head = self._head.next
 
     @property
     def head(self) -> Node or None:
@@ -85,12 +109,21 @@ class List:
         return "List(Node(" + ", Node(".join(elements) + ")"*(len(elements)+1)
 
     def __len__(self) -> int:
+        """
+        Tests:
+            >>> len(List())
+            0
+            >>> len(List(Node(1)))
+            1
+            >>> len(List(Node(1, Node(2, Node(3)))))
+            3
+        """
         if self.is_empty():
             return 0
         length = 0
         p = self.head
         while p is not None:
-            p = p.suivant
+            p = p.next
             length += 1
         return length
 
