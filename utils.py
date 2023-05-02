@@ -105,6 +105,23 @@ def avg_dev(lst: List or list) -> float:
     return sum(map(dev_to_avg, lst)) / len(lst)
 
 
+def execution_time(function, *args, **kwargs) -> tuple:
+    """Return the execution time of `function` called with the arguments passed
+    after it (*args and **kwargs)."""
+    dep = time()
+    function(*args, **kwargs)
+    end = time()
+    return end-dep
+
+def timer(function):
+    """Decorator to measure and return the execution time of a function."""
+    def wrapper(*args, **kwargs):
+        dep = time()
+        function(*args, **kwargs)
+        end = time()
+        return end-dep
+    return wrapper
+
 
 if __name__ == '__main__':
     print(std_dev([0, 2]))
