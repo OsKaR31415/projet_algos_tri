@@ -16,7 +16,7 @@ def insertion_sort(lst: List) -> List:
     return sorted_lst
 
 
-A = random_list(5)
+A = random_list(10)
 print(A)
 A = insertion_sort(A)
 print(A)

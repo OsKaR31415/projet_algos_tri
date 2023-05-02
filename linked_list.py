@@ -115,12 +115,12 @@ class List:
         """
         Tests:
             >>> repr(List(1, 2, 3, 'a', 'b', 'c'))
-            "List(Node(1, Node(2, Node(3, Node('a', Node('b', Node('c')))))))"
+            "List(1, 2, 3, 'a', 'b', 'c')"
         """
         if self.is_empty():
             return "List()"
         elements = list(map(repr, list(self)))
-        return "List(Node(" + ", Node(".join(elements) + ")"*(len(elements)+1)
+        return "List(" + ", ".join(elements) + ")"
 
     def __len__(self) -> int:
         """
@@ -186,11 +186,11 @@ class List:
             List()
             >>> L = List(28, 37, 73, 42)
             >>> L.cdr()
-            List(Node(37, Node(73, Node(42))))
+            List(37, 73, 42)
             >>> L.cdr().cdr()
-            List(Node(73, Node(42)))
+            List(73, 42)
             >>> L.cdr().cdr().cdr()
-            List(Node(42))
+            List(42)
             >>> L.cdr().cdr().cdr().cdr()
             List()
             """
@@ -203,7 +203,7 @@ class List:
         Tests:
             >>> List().last() is None
             True
-            >>> List(Node(28, Node(37, Node(None, Node(42))))).last().value
+            >>> List(28, 37, None, 42).last().value
             42
         """
         if self.is_empty():
@@ -214,6 +214,16 @@ class List:
         return p
 
     def prepend(self, val):
+        """Add a value at the beginning of the list.
+        Tests:
+            >>> L = List()
+            >>> L.prepend(42)
+            >>> L
+            List(42)
+            >>> L.prepend(28); L.prepend(6)
+            >>> L
+            List(6, 28, 42)
+        """
         self.head = Node(val, self.head)
 
     def append(self, val):

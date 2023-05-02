@@ -7,9 +7,9 @@ def iota(n: int) -> List:
         >>> iota(0)
         List()
         >>> iota(1)
-        List(Node(1))
+        List(1)
         >>> iota(5)
-        List(Node(1, Node(2, Node(3, Node(4, Node(5))))))
+        List(1, 2, 3, 4, 5)
     """
     if n < 0:
         raise ValueError("n must be positive.")
@@ -21,6 +21,15 @@ def iota(n: int) -> List:
         n -= 1
     return new_list
 
+def reverse_iota(n: int) -> List:
+    """
+    Tests:
+        >>> reverse_iota(0)
+        List()
+        >>> reverse_iota(1)
+        List(1)
+    """
+    return List(*reversed(range(1, n+1)))
 
 def random_list(length: int):
     new_list = List()
