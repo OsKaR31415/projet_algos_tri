@@ -113,7 +113,7 @@ def execution_time(function, *args, **kwargs) -> tuple:
     end = time()
     return end-dep
 
-def timer(function):
+def return_execution_time(function):
     """Decorator to measure and return the execution time of a function."""
     def wrapper(*args, **kwargs):
         dep = time()

@@ -8,7 +8,7 @@ def recursive_insertion(lst: List, value) -> List:
     lst.next = recursive_insertion(lst.next, value)
     return lst
 
-@timer
+@return_execution_time
 def insertion_sort(lst: List) -> List:
     sorted_lst = List()
     while not lst.is_empty():
