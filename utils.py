@@ -1,5 +1,7 @@
 from linked_list import List
 from random import randint
+from math import sqrt
+from time import time
 
 def iota(n: int) -> List:
     """
@@ -45,27 +47,66 @@ def List_reduce(lst: List, func, init):
     return func(lst.value,
                 List_reduce(lst.next, func, init))
 
-def List_map(lst: List, func):
-    if lst.is_empty():
-        return List()
-    l = List()
-    l.value = func(lst.value)
-    l.next = List_map(lst.next, func)
-    return l
+# # Note: python's usual map works
+# def List_map(lst: List, func):
+#     if lst.is_empty():
+#         return List()
+#     l = List()
+#     l.value = func(lst.value)
+#     l.next = List_map(lst.next, func)
+#     return l
 
 def is_sorted(lst: List) -> bool:
+    """
+    Tests:
+        >>> is_sorted(List())
+        True
+        >>> is_sorted(List(6))
+        True
+        >>> is_sorted(List(6, 28))
+        True
+        >>> is_sorted(List(6, 6, 28, 42))
+        True
+        >>> is_sorted(List(6, 6, 28, 42, 37))
+        False
+        >>> is_sorted(List(6, 37, 28, 42))
+        False
+    """
     while (not lst.is_empty()) and not lst.next.is_empty():
         if lst.value > lst.next.value:
             return False
         lst = lst.next
     return True
 
-def List_avg(lst: List) -> float:
-    # return List_reduce(lst, lambda x, y: x+y) + 
+def average(lst: List or list) -> float:
+    """
+    Tests:
+        >>> average(List(7))
+        7.0
+        >>> average(List(1, 2, 3, 4, 5, 6))
+        3.5
+        >>> average([7])
+        7.0
+        >>> average([1, 2, 3, 4, 5, 6])
+        3.5
+    """
     return sum(lst) / len(lst)
+
+def std_dev(lst: List or list) -> float:
+    """Standard deviation."""
+    avg = average(lst)
+    sq_dev_to_avg = lambda x: (avg - x)**2
+    return sqrt(sum(map(sq_dev_to_avg, lst))) / ( len(lst) - 1 )
+
+def avg_dev(lst: List or list) -> float:
+    """Average deviation."""
+    avg = average(lst)
+    dev_to_avg = lambda x: abs(avg - x)
+    return sum(map(dev_to_avg, lst)) / len(lst)
+
 
 
 if __name__ == '__main__':
-    print(List_avg(iota(6)))
+    print(std_dev([0, 2]))
 
 
