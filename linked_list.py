@@ -2,7 +2,7 @@ from node import Node
 from typing import Self
 
 class List:
-    def __init__(self, head: Self or Node or None =None):
+    def __init__(self, *head: Self or Node or None):
         """
         Tests:
             >>> L = List(Node(1, Node(2, Node(3))))
@@ -19,7 +19,7 @@ class List:
             True
             >>> List().head is None  # empty list : head is None
             True
-            >>> A = List([7, 8, 9, 10, 11])
+            >>> A = List(7, 8, 9, 10, 11)
             >>> A.head.value
             7
             >>> A.head.next.value
@@ -30,19 +30,27 @@ class List:
             10
             >>> A.head.next.next.next.next.value
             11
+            >>> List(None)  # /!\ this declares an empty list
+            List()
         """
-        if isinstance(head, Node) or head is None:
-            self._head = head
-        elif isinstance(head, List):
-            self._head = head.head
-        else:
-            try:
-                head_iterator = iter(head)  # test if head is iterable
-                self.__init_from_iterable__(head_iterator)
-            except:
-                raise TypeError(f"next must be of type Node or List or iterable, not {type(next)}.")
+        match head:
+            case ():  # empty tuple : no arguments given
+                self._head = None
+            case (None,):
+                self._head = None
+            case (node,) if isinstance(node, Node):
+                self._head = head[0]
+            case (linked_list,) if isinstance(linked_list, List):
+                # /!\ The structure is not copied
+                self._head = linked_list.head
+            case _:
+                self.__init_from_iterable__(head)
 
     def __init_from_iterable__(self, iterable: iter) -> None:
+        try:
+            iterator = iter(iterable)
+        except:
+            raise TypeError(f"next must be of type Node or List or iterable, not {type(next)}.")
         self._head = Node(None)  # node with useless contents
         tail = self._head  # last node of self._head
         for element in iterable:
@@ -90,7 +98,13 @@ class List:
     def __str__(self) -> str:
         """
         Tests:
-            >>> print(List(Node(1, Node(2, Node(3, Node('a', Node('b', Node('c'))))))))
+            >>> print(List())
+            < >
+            >>> print(List(Node(None)))
+            <None>
+            >>> print(List(Node(1, Node(2))))
+            <1, 2>
+            >>> print(List(1, 2, 3, 'a', 'b', 'c'))
             <1, 2, 3, 'a', 'b', 'c'>
         """
         if self.is_empty():
@@ -100,7 +114,7 @@ class List:
     def __repr__(self) -> str:
         """
         Tests:
-            >>> repr(List(Node(1, Node(2, Node(3, Node('a', Node('b', Node('c'))))))))
+            >>> repr(List(1, 2, 3, 'a', 'b', 'c'))
             "List(Node(1, Node(2, Node(3, Node('a', Node('b', Node('c')))))))"
         """
         if self.is_empty():
@@ -142,7 +156,7 @@ class List:
         Tests:
             >>> List().is_empty()
             True
-            >>> List(None).is_empty()
+            >>> List(None).is_empty()  # List(None) really is an empty list.
             True
             >>> List(Node(42)).is_empty()
             False
@@ -170,7 +184,7 @@ class List:
             List()
             >>> List(Node(28)).cdr()
             List()
-            >>> L = List(Node(28, Node(37, Node(73, Node(42)))))
+            >>> L = List(28, 37, 73, 42)
             >>> L.cdr()
             List(Node(37, Node(73, Node(42))))
             >>> L.cdr().cdr()
