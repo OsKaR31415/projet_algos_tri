@@ -8,6 +8,7 @@ def recursive_insertion(lst: List, value) -> List:
     lst.next = recursive_insertion(lst.next, value)
     return lst
 
+@timer
 def insertion_sort(lst: List) -> List:
     sorted_lst = List()
     while not lst.is_empty():
@@ -16,8 +17,7 @@ def insertion_sort(lst: List) -> List:
     return sorted_lst
 
 
-A = random_list(10)
-print(A)
+A = random_list(1000)
 A = insertion_sort(A)
 print(A)
 
