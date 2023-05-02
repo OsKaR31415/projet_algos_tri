@@ -28,6 +28,8 @@ def reverse_iota(n: int) -> List:
         List()
         >>> reverse_iota(1)
         List(1)
+        >>> reverse_iota(5)
+        List(5, 4, 3, 2, 1)
     """
     return List(*reversed(range(1, n+1)))
 
@@ -57,5 +59,13 @@ def is_sorted(lst: List) -> bool:
             return False
         lst = lst.next
     return True
+
+def List_avg(lst: List) -> float:
+    # return List_reduce(lst, lambda x, y: x+y) + 
+    return sum(lst) / len(lst)
+
+
+if __name__ == '__main__':
+    print(List_avg(iota(6)))
 
 
