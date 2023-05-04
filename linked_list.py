@@ -164,6 +164,12 @@ class List:
         """
         return iter(self.head)
 
+    def copy(self) -> List:
+        """Return a copy of this List."""
+        # Use the fact that Lists are iterable, and that they can be built from
+        # a list of arguments
+        return List(*self)
+
     def is_empty(self):
         """
         Predicate checking if the list is empty.
