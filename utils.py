@@ -35,10 +35,10 @@ def reverse_iota(n: int) -> List:
     """
     return List(*reversed(range(1, n+1)))
 
-def random_list(length: int):
+def random_list(length: int, max_number: int =100):
     new_list = List()
     for _ in range(length):
-        new_list.prepend(randint(1, 100))
+        new_list.prepend(randint(1, max_number))
     return new_list
 
 def List_reduce(lst: List, func, init):
@@ -46,15 +46,6 @@ def List_reduce(lst: List, func, init):
         return init
     return func(lst.value,
                 List_reduce(lst.next, func, init))
-
-# # Note: python's usual map works
-# def List_map(lst: List, func):
-#     if lst.is_empty():
-#         return List()
-#     l = List()
-#     l.value = func(lst.value)
-#     l.next = List_map(lst.next, func)
-#     return l
 
 def is_sorted(lst: List) -> bool:
     """
