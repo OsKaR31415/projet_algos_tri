@@ -1,9 +1,16 @@
 from node import Node
 from typing import Self
 
+
 class List:
     def __init__(self, *head: Self or Node or None):
         """
+        Args:
+            No arguments : Create an empty List
+            head (None): Create an empty list.
+            head (Node): Create a List out of a linked Nodes.
+            head (List): Does nothing to a list (not a copy).
+            *head: Create a list from the list of arguments passed.
         Tests:
             >>> L = List(Node(1, Node(2, Node(3))))
             >>> L2 = List(L)
@@ -36,7 +43,9 @@ class List:
         match head:
             case ():  # empty tuple : no arguments given
                 self._head = None
-            case (None,):
+            case (None,):  # None should mean empty list
+                # this is because, when you transform a node into a list, you
+                # want None to represent the empty Node.
                 self._head = None
             case (node,) if isinstance(node, Node):
                 self._head = head[0]
@@ -50,7 +59,8 @@ class List:
         try:
             iterator = iter(iterable)
         except:
-            raise TypeError(f"next must be of type Node or List or iterable, not {type(next)}.")
+            raise TypeError(
+                f"next must be of type Node or List or iterable, not {type(next)}.")
         self._head = Node(None)  # node with useless contents
         tail = self._head  # last node of self._head
         for element in iterable:
@@ -68,7 +78,8 @@ class List:
         if isinstance(value, Node) or value is None:
             self._head = value
         else:
-            raise TypeError(f"head must be of type Node or None, not {type(value)}.")
+            raise TypeError(
+                f"head must be of type Node or None, not {type(value)}.")
 
     @property
     def next(self) -> Node or None:
@@ -83,14 +94,17 @@ class List:
         if isinstance(value, List):
             self.head.next = value.head
         else:
-            raise TypeError(f"next must be of type List, Node or None, not {type(value)}.")
+            raise TypeError(
+                f"next must be of type List, Node or None, not {type(value)}.")
 
     @property
     def value(self):
-        return self.car()
+        """Get the value of the first node of this List."""
+        return self._head.value
 
     @value.setter
     def value(self, new_value):
+        """Change the value of the first node of this List."""
         if self.is_empty:
             raise EmptyListError("Empty list can't have any value.")
         self.head.value = new_value
@@ -175,7 +189,7 @@ class List:
         """
         if self.is_empty():
             raise EmptyListError("Empty list has no first value.")
-        return self.head.value
+        return self._head.value
 
     def cdr(self):
         """List containing all but the first value of this list.
@@ -249,5 +263,3 @@ if __name__ == "__main__":
     L.prepend(3)
     print(L)
     print(L.last().value)
-
-
