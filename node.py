@@ -2,7 +2,7 @@ from typing import Self
 
 class Node:
     def __init__(self, value, next: Self or None =None):
-        """
+        """# {{{
         Tests:
         >>> A = Node(1, Node(2, Node('a', Node('b'))))
         >>> A.value
@@ -15,7 +15,7 @@ class Node:
         'b'
         >>> A.next.next.next.next is None
         True
-        """
+        """# }}}
         self.value = value
         self._next = next
 
@@ -24,7 +24,7 @@ class Node:
 
     @property
     def next(self):
-        """
+        """# {{{
         Tests:
         >>> A = Node(1, Node(2, Node(3)))
         >>> A.next.value
@@ -33,12 +33,12 @@ class Node:
         3
         >>> A.next.next.next is None
         True
-        """
+        """# }}}
         return self._next
 
     @next.setter
     def next(self, val: Self or None) -> None:
-        """
+        """# {{{
         Tests:
         >>> A = Node()
         >>> A.next = Node(1)
@@ -47,7 +47,7 @@ class Node:
         >>> A.next.next.next = Node(4)
         >>> A.next.next.next.value
         4
-        """
+        """# }}}
         if val is None:
             self._next = None
         elif isinstance(val, Node):
@@ -61,14 +61,14 @@ class NodeIterator:
         self.node = node
 
     def __iter__(self):
-        """
+        """# {{{
         Tests:
         >>> A = Node(1, Node(2, Node(3, Node(4))))
         >>> list(A)
         [1, 2, 3, 4]
         >>> list(Node('test'))
         ['test']
-        """
+        """# }}}
         return self
 
     def __next__(self):

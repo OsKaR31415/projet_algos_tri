@@ -1,10 +1,10 @@
-from node import Node
-from typing import Self
+from __future__ import annotations
+from node import Node, NodeIterator
 
 
 class List:
-    def __init__(self, *head: Self or Node or None):
-        """
+    def __init__(self, *head: List or Node or None):
+        """# {{{
         Args:
             No arguments : Create an empty List
             head (None): Create an empty list.
@@ -38,8 +38,8 @@ class List:
             >>> A.head.next.next.next.next.value
             11
             >>> List(None)  # /!\ this declares an empty list
-            List()
-        """
+            List()"""# }}}
+
         match head:
             case ():  # empty tuple : no arguments given
                 self._head = None
@@ -74,7 +74,7 @@ class List:
         return self._head
 
     @head.setter
-    def head(self, value: Node or None):
+    def head(self, value: Node or None) -> None:
         if isinstance(value, Node) or value is None:
             self._head = value
         else:
@@ -86,7 +86,10 @@ class List:
         return List(self._head.next)
 
     @next.setter
-    def next(self, value: Node or None):
+    def next(self, value: Node or None) -> None:
+        """Get the next List.
+        That is the list of all the elements except the first.
+        """
         if self.head is None:
             raise EmptyListError("Empty list has no next.")
         if isinstance(value, Node) or value is None:
@@ -98,19 +101,19 @@ class List:
                 f"next must be of type List, Node or None, not {type(value)}.")
 
     @property
-    def value(self):
+    def value(self) -> object:
         """Get the value of the first node of this List."""
         return self._head.value
 
     @value.setter
-    def value(self, new_value):
+    def value(self, new_value) -> None:
         """Change the value of the first node of this List."""
         if self.is_empty:
             raise EmptyListError("Empty list can't have any value.")
         self.head.value = new_value
 
     def __str__(self) -> str:
-        """
+        """# {{{
         Tests:
             >>> print(List())
             < >
@@ -120,24 +123,26 @@ class List:
             <1, 2>
             >>> print(List(1, 2, 3, 'a', 'b', 'c'))
             <1, 2, 3, 'a', 'b', 'c'>
-        """
+        """# }}}
+
         if self.is_empty():
             return "< >"
         return "<" + ", ".join(map(repr, list(self))) + ">"
 
     def __repr__(self) -> str:
-        """
+        """# {{{
         Tests:
             >>> repr(List(1, 2, 3, 'a', 'b', 'c'))
             "List(1, 2, 3, 'a', 'b', 'c')"
-        """
+        """# }}}
+
         if self.is_empty():
             return "List()"
         elements = list(map(repr, list(self)))
         return "List(" + ", ".join(elements) + ")"
 
     def __len__(self) -> int:
-        """
+        """# {{{
         Tests:
             >>> len(List())
             0
@@ -145,7 +150,8 @@ class List:
             1
             >>> len(List(Node(1, Node(2, Node(3)))))
             3
-        """
+        """# }}}
+
         if self.is_empty():
             return 0
         length = 0
@@ -155,7 +161,7 @@ class List:
             length += 1
         return length
 
-    def __iter__(self):
+    def __iter__(self) -> NodeIterator:
         """
         Tests:
             >>> L = List(Node(1, Node(2, Node(3, Node('a', Node('b', Node('c')))))))
@@ -170,8 +176,8 @@ class List:
         # a list of arguments
         return List(*self)
 
-    def is_empty(self):
-        """
+    def is_empty(self) -> bool:
+        """# {{{
         Predicate checking if the list is empty.
         Tests:
             >>> List().is_empty()
@@ -182,23 +188,23 @@ class List:
             False
             >>> List(Node(42, Node(73))).is_empty()
             False
-        """
+        """# }}}
         return self.head is None
 
-    def car(self):
-        """First value of the list.
+    def car(self) -> object:
+        """First value of the list.# {{{
         Tests:
             >>> List(Node(42)).car()
             42
             >>> List(Node(42, Node(37, Node(28, Node(73))))).car()
             42
-        """
+        """# }}}
         if self.is_empty():
             raise EmptyListError("Empty list has no first value.")
         return self._head.value
 
-    def cdr(self):
-        """List containing all but the first value of this list.
+    def cdr(self) -> List:
+        """List containing all but the first value of this list.# {{{
         Tests:
             >>> List().cdr()
             List()
@@ -213,19 +219,20 @@ class List:
             List(42)
             >>> L.cdr().cdr().cdr().cdr()
             List()
-            """
+        """# }}}
         if self.is_empty():
             return List()
         return List(self.head.next)
 
-    def last(self):
-        """Last Node of a linked list.
+    def last(self) -> object:
+        """Last Node of a linked list.# {{{
         Tests:
             >>> List().last() is None
             True
             >>> List(28, 37, None, 42).last().value
             42
-        """
+        """# }}}
+
         if self.is_empty():
             return None
         p = self.head
@@ -233,8 +240,9 @@ class List:
             p = p.next
         return p
 
-    def prepend(self, val):
-        """Add a value at the beginning of the list.
+    def prepend(self, val) -> None:
+        """Add a value at the beginning of the list.# {{{
+        This modifies the list and returns nothing.
         Tests:
             >>> L = List()
             >>> L.prepend(42)
@@ -243,10 +251,22 @@ class List:
             >>> L.prepend(28); L.prepend(6)
             >>> L
             List(6, 28, 42)
-        """
+            """# }}}
         self.head = Node(val, self.head)
 
-    def append(self, val):
+    def append(self, val) -> None:
+        """Add a value at the end of the list.# {{{
+        This modifies the list and returns nothing.
+        Tests:
+            >>> L = List()
+            >>> L.append(28)
+            >>> L
+            List(28)
+            >>> L.append(42); L.append(6)
+            >>> L
+            List(28, 42, 6)
+        """# }}}
+
         if self.head is None:
             self.head = Node(val)
         elif self.head.next is None:

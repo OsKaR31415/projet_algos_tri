@@ -4,7 +4,7 @@ from node import Node
 from utils import *
 
 def recursive_insertion(lst: List, value) -> List:
-    """
+    """# {{{
     Tests:
         >>> recursive_insertion(List(1), 2)
         List(1, 2)
@@ -12,7 +12,8 @@ def recursive_insertion(lst: List, value) -> List:
         List(0, 1)
         >>> all(is_sorted(recursive_insertion(iota(50), n)) for n in range(51))
         True
-    """
+    """# }}}
+
     if lst.is_empty() or lst.value > value:
         lst.prepend(value)
         return lst
@@ -20,7 +21,7 @@ def recursive_insertion(lst: List, value) -> List:
     return lst
 
 def iterative_insertion(lst: List, value) -> List:
-    """
+    """# {{{
     Tests:
         >>> iterative_insertion(List(1), 2)
         List(1, 2)
@@ -28,7 +29,8 @@ def iterative_insertion(lst: List, value) -> List:
         List(0, 1)
         >>> all(is_sorted(iterative_insertion(iota(50), n)) for n in range(51))
         True
-    """
+    """# }}}
+
     new_list = List(False)  # List containing a foo value
     tail = new_list  # Last node of the list
     lst_ptr = lst  # pointer to the current element of lst
@@ -52,9 +54,19 @@ def insertion_sort(insertion_function: Callable[List, List], lst: List) -> List:
     return sorted_lst
 
 def recursive_insertion_sort(lst: List) -> List:
+    """# {{{
+    Tests:
+        >>> all(is_sorted(recursive_insertion_sort(random_list(n))) for n in range(50))
+        True
+    """# }}}
     return insertion_sort(recursive_insertion, lst)
 
 def iterative_insertion_sort(lst: List) -> List:
+    """# {{{
+    Tests:
+        >>> all(is_sorted(recursive_insertion_sort(random_list(n))) for n in range(50))
+        True
+    """# }}}
     return insertion_sort(iterative_insertion, lst)
 
 @return_execution_time

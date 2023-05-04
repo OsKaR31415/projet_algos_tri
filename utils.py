@@ -4,7 +4,7 @@ from math import sqrt
 from time import time
 
 def iota(n: int) -> List:
-    """
+    """# {{{
     Tests:
         >>> iota(0)
         List()
@@ -12,7 +12,7 @@ def iota(n: int) -> List:
         List(1)
         >>> iota(5)
         List(1, 2, 3, 4, 5)
-    """
+    """# }}}
     if n < 0:
         raise ValueError("n must be positive.")
     if n == 0:
@@ -24,7 +24,7 @@ def iota(n: int) -> List:
     return new_list
 
 def reverse_iota(n: int) -> List:
-    """
+    """# {{{
     Tests:
         >>> reverse_iota(0)
         List()
@@ -32,10 +32,10 @@ def reverse_iota(n: int) -> List:
         List(1)
         >>> reverse_iota(5)
         List(5, 4, 3, 2, 1)
-    """
+    """# }}}
     return List(*reversed(range(1, n+1)))
 
-def random_list(length: int, max_number: int =100):
+def random_list(length: int, max_number: int =100) -> List:
     new_list = List()
     for _ in range(length):
         new_list.prepend(randint(1, max_number))
@@ -48,7 +48,7 @@ def List_reduce(lst: List, func, init):
                 List_reduce(lst.next, func, init))
 
 def is_sorted(lst: List) -> bool:
-    """
+    """# {{{
     Tests:
         >>> is_sorted(List())
         True
@@ -62,7 +62,7 @@ def is_sorted(lst: List) -> bool:
         False
         >>> is_sorted(List(6, 37, 28, 42))
         False
-    """
+    """# }}}
     while (not lst.is_empty()) and not lst.next.is_empty():
         if lst.value > lst.next.value:
             return False
@@ -70,7 +70,7 @@ def is_sorted(lst: List) -> bool:
     return True
 
 def average(lst: List or list) -> float:
-    """
+    """# {{{
     Tests:
         >>> average(List(7))
         7.0
@@ -80,7 +80,7 @@ def average(lst: List or list) -> float:
         7.0
         >>> average([1, 2, 3, 4, 5, 6])
         3.5
-    """
+    """# }}}
     return sum(lst) / len(lst)
 
 def std_dev(lst: List or list) -> float:
