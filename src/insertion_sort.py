@@ -1,6 +1,6 @@
 from typing import Callable
-from linked_list import List
-from utils import *
+from ../linked_list import List
+from ../utils import *
 
 def recursive_insertion(lst: List, value) -> List:
     """# {{{
