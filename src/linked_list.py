@@ -81,11 +81,6 @@ class List:
             raise TypeError(
                 f"head must be of type Node or None, not {type(value)}.")
 
-    @head.deleter
-    def head(self):
-        del self._head
-        self._head = None
-
     @property
     def next(self) -> Node or None:
         return List(self._head.next)
@@ -112,7 +107,7 @@ class List:
         """Deletes the next element(s) of the List.# {{{
         It makes the current node the last one of the List.
         """# }}}
-        del self._head.next
+        del self._head
         self._head.next = None
 
     @property
