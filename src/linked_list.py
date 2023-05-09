@@ -107,7 +107,8 @@ class List:
         """Deletes the next element(s) of the List.# {{{
         It makes the current node the last one of the List.
         """# }}}
-        del self._head
+        # must use __del__, else the attribute is deleted, but not its contents.
+        self._head.__del__()
         self._head.next = None
 
     @property
