@@ -81,6 +81,11 @@ class List:
             raise TypeError(
                 f"head must be of type Node or None, not {type(value)}.")
 
+    @head.deleter
+    def head(self):
+        del self._head
+        self._head = None
+
     @property
     def next(self) -> Node or None:
         return List(self._head.next)
@@ -92,23 +97,35 @@ class List:
         """
         if self.head is None:
             raise EmptyListError("Empty list has no next.")
-        if isinstance(value, Node) or value is None:
+        elif value is None:
+            self._head.next = None
+        elif isinstance(value, Node):
             self.head.next = value
-        if isinstance(value, List):
+        elif isinstance(value, List):
             self.head.next = value.head
         else:
             raise TypeError(
                 f"next must be of type List, Node or None, not {type(value)}.")
 
+    @next.deleter
+    def next(self) -> None:
+        """Deletes the next element(s) of the List.# {{{
+        It makes the current node the last one of the List.
+        """# }}}
+        del self._head.next
+        self._head.next = None
+
     @property
     def value(self) -> object:
         """Get the value of the first node of this List."""
+        if self.is_empty():
+            raise EmptyListError("Empty list has no value.")
         return self._head.value
 
     @value.setter
     def value(self, new_value) -> None:
         """Change the value of the first node of this List."""
-        if self.is_empty:
+        if self.is_empty():
             raise EmptyListError("Empty list can't have any value.")
         self.head.value = new_value
 
@@ -224,21 +241,32 @@ class List:
             return List()
         return List(self.head.next)
 
-    def last(self) -> object:
+    def last(self) -> List:
         """Last Node of a linked list.# {{{
         Tests:
-            >>> List().last() is None
+            >>> List().last().is_empty()
             True
             >>> List(28, 37, None, 42).last().value
             42
         """# }}}
 
         if self.is_empty():
-            return None
-        p = self.head
-        while p.next is not None:
+            return List()
+        p = self
+        while not p.next.is_empty():
             p = p.next
         return p
+
+    def delete_last(self) -> None:
+        if self.is_empty():
+            raise EmptyListError("Can't delete last node of an empty List")
+        if self.next.is_empty():
+            self._head = None
+        p = self
+        while not p.next.next.is_empty():
+            p = p.next
+        p.next = None
+
 
     def prepend(self, val) -> None:
         """Add a value at the beginning of the list.# {{{
@@ -282,10 +310,14 @@ class EmptyListError(Exception):
 
 
 if __name__ == "__main__":
-    L = List()
-    for v in [1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8]:
-        L.append(v)
+    # L = List()
+    # for v in [1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8]:
+    #     L.append(v)
+    # print(L)
+    # L.prepend(3)
+    # print(L)
+    # print(L.last().value)
+
+    L = List(3, 1, 4, 1, 5, 9, 2)
+    del L.next.head
     print(L)
-    L.prepend(3)
-    print(L)
-    print(L.last().value)

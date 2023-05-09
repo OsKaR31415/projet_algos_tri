@@ -19,6 +19,12 @@ class Node:
         self.value = value
         self._next = next
 
+    def __del__(self):
+        del self._next
+        # def self._value  # this could be weird
+        self._next = None
+        self._value = None
+
     def __iter__(self):
         return NodeIterator(self)
 
