@@ -1,6 +1,6 @@
 from typing import Callable
-from ../linked_list import List
-from ../utils import *
+from linked_list import List
+from utils import *
 
 def recursive_insertion(lst: List, value) -> List:
     """# {{{
@@ -78,7 +78,7 @@ def time_recursive_insertion_sort(sample: List) -> float:
 
 
 if __name__ == "__main__":
-    for num_values in (10, 100, 1000, 5000):
+    for num_values in (10, 100, 1000, 2000):
         R = random_list(num_values)
         print(time_recursive_insertion_sort(R))
         print(time_iterative_insertion_sort(R))
