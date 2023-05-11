@@ -1,4 +1,5 @@
 from typing import Callable
+import matplotlib.pyplot as plt
 from linked_list import List
 from random import randint
 from math import sqrt
@@ -126,8 +127,57 @@ def return_execution_time(function: Callable) -> float:
         return end - dep
     return wrapper
 
+def test_execution_times(sorting_function: Callable[List, List],
+                         random_list_function: Callable[int, List],
+                         number_of_tests: int =100,
+                         verbose: bool =False) -> list[float]:
+    """Return a list of execution times for sorting lists generated using# {{{
+    `random_list_function` with `sorting_function`.
+    Args:
+        sorting_function (Callable[List, List]): The function used to sort Lists.
+        random_list_function (Callable[int, List]): The function used to generate
+            the lists to sort. This is a function that takes a number and returns a List of integers.
+        number_of_tests (int): The numbers of tests to run. Each test is on a
+            list of 100 more elements than the previous, so the maximum number
+            of tested values is `100 * number_of_tests`.
+        verbose (bool): Wether to pring log during the tests.
+    """# }}}
+    if verbose:
+        print("-" * 50)
+        print(f"testing {sorting_function.__name__} on {number_of_tests} lists generated using {random_list_function.__name__}")
+    time_to_sort = return_execution_time(sorting_function)
+    timings = []
+    for length in range(100, 100*number_of_tests, 100):
+        sorting_time = time_to_sort(random_list_function(length))
+        if isinstance(sorting_time, RecursionError):
+            print("recursion error, stopping tests here")
+            break
+        timings.append(sorting_time)
+        if verbose:
+            print(sorting_time)
+    if verbose:
+        print("values :", timings)
+    return timings
+
+
+def plot_execution_times(sorting_function: Callable[List, List],
+                         number_of_tests: int =100,
+                         verbose: bool =False):
+    rand_lst_times = test_execution_times(sorting_function, random_list,
+                                          number_of_tests, verbose)
+    inc_lst_times = test_execution_times(sorting_function, iota,
+                                         number_of_tests, verbose)
+    dec_lst_times = test_execution_times(sorting_function, reverse_iota,
+                                         number_of_tests, verbose)
+    plt.plot(rand_lst_times, color="green")
+    plt.plot(inc_lst_times,  color="blue")
+    plt.plot(dec_lst_times,  color="red")
+    plt.show()
+
+
 
 if __name__ == '__main__':
-    print(std_dev([0, 2]))
+    from bucket_sort import bucket_sort
+    plot_execution_times(bucket_sort, 20, True)
 
 
