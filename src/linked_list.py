@@ -278,7 +278,7 @@ class List:
             """# }}}
         self.head = Node(val, self.head)
 
-    def append(self, val: Al) -> None:
+    def append(self, val: All) -> None:
         """Add a value at the end of the list.# {{{
         This modifies the list and returns nothing.
         Tests:
