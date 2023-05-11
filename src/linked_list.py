@@ -1,5 +1,5 @@
 from __future__ import annotations
-from node import Node, NodeIterator
+from node import Node, NodeIterator, All
 
 
 class List:
@@ -119,7 +119,7 @@ class List:
         return self._head.value
 
     @value.setter
-    def value(self, new_value) -> None:
+    def value(self, new_value: All) -> None:
         """Change the value of the first node of this List."""
         if self.is_empty():
             raise EmptyListError("Empty list can't have any value.")
@@ -264,7 +264,7 @@ class List:
         p.next = None
 
 
-    def prepend(self, val) -> None:
+    def prepend(self, val: All) -> None:
         """Add a value at the beginning of the list.# {{{
         This modifies the list and returns nothing.
         Tests:
@@ -278,7 +278,7 @@ class List:
             """# }}}
         self.head = Node(val, self.head)
 
-    def append(self, val) -> None:
+    def append(self, val: Al) -> None:
         """Add a value at the end of the list.# {{{
         This modifies the list and returns nothing.
         Tests:
