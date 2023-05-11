@@ -1,6 +1,5 @@
 from __future__ import annotations
-from node import Node, NodeIterator, All
-
+from node import Node, NodeIterator
 
 class List:
     def __init__(self, *head: List or Node or None):
@@ -181,6 +180,8 @@ class List:
             >>> list(L)
             [1, 2, 3, 'a', 'b', 'c']
         """
+        if self.is_empty():
+            return iter([])
         return iter(self.head)
 
     def copy(self) -> List:
