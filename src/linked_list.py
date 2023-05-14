@@ -291,13 +291,38 @@ class List:
             >>> L
             List(28, 42, 6)
         """# }}}
-
         if self.head is None:
             self.head = Node(val)
         elif self.head.next is None:
             self.head.next = Node(val)
         else:
             self.cdr().append(val)
+
+    def extend(self, lst: List) -> None:
+        """Extend the current List by concatenating `lst` at the end.# {{{
+        Tests:
+            >>> L = List(1, 2, 3)
+            >>> L.extend(List(4, 5, 6))
+            >>> L
+            List(1, 2, 3, 4, 5, 6)
+            >>> L = List()
+            >>> L.extend(List())
+            >>> L
+            List()
+            >>> L.extend(List(42))
+            >>> L
+            List(42)
+            >>> L.extend(List())
+            >>> L
+            List(42)
+        """# }}}
+        if self.is_empty():
+            self.head = lst.head
+        else:
+            p = self
+            while not p.next.is_empty():
+                p = p.next
+            p.next = lst
 
 
 class EmptyListError(Exception):
@@ -316,5 +341,5 @@ if __name__ == "__main__":
     # print(L.last().value)
 
     L = List(3, 1, 4, 1, 5, 9, 2)
-    del L.next.head
+    # del L.next.head
     print(L)
