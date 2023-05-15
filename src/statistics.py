@@ -21,7 +21,7 @@ from pprint import pprint
 # setrecursionlimit(1500)  # change the maximum number of recursive calls
 
 
-SAMPLES_PER_TEST: int = 3
+SAMPLES_PER_TEST: int = 10
 
 TESTED_LENGTHS: list[int]
 # TESTED_LENGTHS = np.logspace(1, 4, 20, dtype=int)
@@ -44,9 +44,10 @@ if __name__ == '__main__':
     for algo_name, algorithm in zip(ALGORITHMS_NAMES, ALGORITHMS):
         timings[algo_name] = []
         for list_length in TESTED_LENGTHS:
-            timings[algo_name].append(test_execution_times(algorithm, iota,
+            timings[algo_name].append(test_execution_times(algorithm, random_list,
                                                            list_length,
                                                            number_of_samples=SAMPLES_PER_TEST,
+                                                           timeout=10,
                                                            verbose=True))
             # break on call stack overflow or timeout
             # empty list means stack overflow or timeout because all values have
@@ -84,12 +85,12 @@ if __name__ == '__main__':
 
     pprint(stats)
 
-    # # save the python object into a binary file
-    # title = " ".join(ALGORITHMS_NAMES) + " iota"
-    # file_name = 'saved_statistics/' + title + '.pkl'
-    # with open(file_name, 'wb') as save_file:
-    #     pickle.dump(stats, save_file)
-    #     print("data saved into", file_name)
-    #     print("\07")  # ring a bell
+    # save the python object into a binary file
+    title = " ".join(ALGORITHMS_NAMES) + " random_list"
+    file_name = 'saved_statistics/' + title + '.pkl'
+    with open(file_name, 'wb') as save_file:
+        pickle.dump(stats, save_file)
+        print("data saved into", file_name)
+        print("\07")  # ring a bell
 
 
