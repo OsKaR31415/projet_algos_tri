@@ -155,7 +155,7 @@ def test_execution_times(sorting_function: Callable[List, List],
         sorting_time = time_to_sort(random_list_function(list_length))
         if isinstance(sorting_time, RecursionError):
             print("RecursionError : call stack overflow")
-            continue
+            break
         timings.append(sorting_time)
         if verbose:
             print(sorting_time)
