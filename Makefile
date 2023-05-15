@@ -1,13 +1,7 @@
 
-all: tests
+all: compte_rendu
 
-run:
-	python3 algorithms.py
-
-tests:
-	python3 -m doctest node.py
-	python3 -m doctest linked_list.py
-	python3 -m doctest utils.py
-	python3 -m doctest algorithms.py
+compte_rendu:
+	pandoc compte_rendu.md --pdf-engine=xelatex -o compte_rendu.pdf -f markdown -t latex
 
 
