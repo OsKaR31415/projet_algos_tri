@@ -54,7 +54,7 @@ def merge_sort(lst: List) -> List:
     return merge(merge_sort(even), merge_sort(odd))
 
 if __name__ == "__main__":
-    L = random_list(100)
-    print(is_sorted(merge_sort(L)))
+    print_data_for(merge_sort)
+
 
 

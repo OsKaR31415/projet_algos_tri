@@ -31,14 +31,4 @@ def quick_sort(lst: List, depth=1):
 
 
 if __name__ == '__main__':
-    from random import randint
-    counter = 0
-    try:
-        while True:
-            counter += 1
-            L = random_list(randint(0, 500))
-            L = quick_sort(L)
-            if not is_sorted(L):
-                break
-    except KeyboardInterrupt:
-        print("\nsorted", counter, "Lists")
+    print_data_for(quick_sort)

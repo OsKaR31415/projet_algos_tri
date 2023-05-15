@@ -48,8 +48,7 @@ def time_bucket_sort(sample: List, max_value: int =100):
     bucket_sort(sample, max_value)
 
 if __name__ == "__main__":
-    L = random_list(1000000)
-    print(time_bucket_sort(L))
+    print_data_for(bucket_sort)
 
 
 

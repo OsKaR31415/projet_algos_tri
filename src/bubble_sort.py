@@ -69,7 +69,5 @@ def time_in_place_bubble_sort(sample: List):
 
 
 if __name__ == "__main__":
-    for n in range(100):
-        L = random_list(n*100)
-        print(time_in_place_bubble_sort(L), time_bubble_sort(L))
+    print_data_for(bubble_sort)
 
