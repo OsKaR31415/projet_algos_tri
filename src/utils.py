@@ -95,7 +95,12 @@ def std_dev(lst: List or list) -> float:
     """Standard deviation."""
     avg = average(lst)
     def sq_dev_to_avg(x): return (avg - x)**2
+    if len(lst) == 0:
+        return 0
+    if len(lst) == 1:
+        return lst[0]
     return sqrt(sum(map(sq_dev_to_avg, lst))) / (len(lst) - 1)
+
 
 
 def avg_dev(lst: List or list) -> float:
@@ -164,6 +169,26 @@ def test_execution_times(sorting_function: Callable[List, List],
     if verbose:
         print("timings :", timings)
     return timings
+
+def print_data_for(sorting_function: Callable[List, List],
+                   number_of_samples: int =5,
+                   timeout: int | float =5):
+    for list_length in (10, 100, 1000, 10000, 100000):
+        ### random list ###
+        timings = test_execution_times(sorting_function, random_list,
+                                       list_length, verbose=False)
+        timings = ','.join(map(str, timings))
+        print(f"rand_list:{sorting_function.__name__}:{str(list_length)}:{timings}")
+        ### iota ###
+        timings = test_execution_times(sorting_function, iota, list_length,
+                                       verbose=False)
+        timings = ','.join(map(str, timings))
+        print(f"iota:{sorting_function.__name__}:{str(list_length)}:{timings}")
+        ### reverse iota ###
+        timings = test_execution_times(sorting_function, reverse_iota,
+                                       list_length, verbose=False)
+        timings = ','.join(map(str, timings))
+        print(f"reverse_iota:{sorting_function.__name__}:{str(list_length)}:{timings}")
 
 
 def plot_execution_times(sorting_function: Callable[List, List],
