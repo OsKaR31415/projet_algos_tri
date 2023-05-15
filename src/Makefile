@@ -1,6 +1,13 @@
 
 all: tests
 
+statistics:
+	python3 bubble_sort.py >> saved_statistics/data &
+	python3 bucket_sort.py >> saved_statistics/data &
+	python3 insertion_sort.py >> saved_statistics/data &
+	python3 merge_sort.py >> saved_statistics/data &
+	python3 quick_sort.py >> saved_statistics/data &
+
 run:
 	python3 algorithms.py
 
