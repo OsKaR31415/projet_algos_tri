@@ -117,13 +117,13 @@ def execution_time(function: Callable, *args, **kwargs) -> float:
 def return_execution_time(function: Callable) -> float:
     """Decorator to measure and return the execution time of a function."""
     def wrapper(*args, **kwargs):
-        dep = time()
         try:
+            dep = time()
             function(*args, **kwargs)
+            end = time()
+            return end - dep
         except Exception as e:
             return e
-        end = time()
-        return end - dep
     return wrapper
 
 def test_execution_times(sorting_function: Callable[List, List],
