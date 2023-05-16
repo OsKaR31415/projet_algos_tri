@@ -159,7 +159,8 @@ def test_execution_times(sorting_function: Callable[List, List],
     for _ in range(number_of_samples):
         sorting_time = time_to_sort(random_list_function(list_length))
         if isinstance(sorting_time, RecursionError):
-            print("RecursionError : call stack overflow")
+            if verbose:
+                print("RecursionError : call stack overflow")
             break
         timings.append(sorting_time)
         if verbose:
@@ -173,7 +174,9 @@ def test_execution_times(sorting_function: Callable[List, List],
 def print_data_for(sorting_function: Callable[List, List],
                    number_of_samples: int =5,
                    timeout: int | float =5):
-    for list_length in (10, 100, 1000, 10000, 100000):
+    TESTED_LENGTHS = (1000, 10000, 100000)
+    # TESTED_LENGTHS = (2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000)
+    for list_length in TESTED_LENGTHS:
         ### random list ###
         timings = test_execution_times(sorting_function, random_list,
                                        list_length, verbose=False)
