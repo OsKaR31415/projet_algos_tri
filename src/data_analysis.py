@@ -1,15 +1,29 @@
 from typing import Callable
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+from cycler import cycler
+from random import choice
 from utils import average, std_dev
 from pprint import pprint
 
 ALGORITHMS_NAMES = [
         # 'recursive_insertion_sort',
-        'iterative_insertion_sort',
+        # 'iterative_insertion_sort',
         'bubble_sort',
-        # 'in_place_bubble_sort',
-        'bucket_sort',
-        'merge_sort',
-        'quick_sort'
+        'in_place_bubble_sort',
+        # 'bucket_sort',
+        # 'merge_sort',
+        # 'quick_sort'
+        ]
+FRENCH_ALGO_NAMES = [
+        # 'tri par insertion récursive',
+        # 'tri par insertion itérative',
+        'tri à bulles',
+        'tri à bulles en place',
+        # 'tri par seaux',
+        # 'tri fusion',
+        # 'tri rapide'
         ]
 
 
@@ -31,6 +45,12 @@ with open("saved_statistics/data", "r") as data_file:
         if data[list_type].get(algo_name) is None:
             data[list_type][algo_name] = dict()
         data[list_type][algo_name][list_length] = timings
+
+def random_color():
+    # COLOR_TABLE = mcolors.CSS4_COLORS
+    COLOR_TABLE = mcolors.XKCD_COLORS
+    return choice(list(COLOR_TABLE.values()))
+
 
 def select_list_type(data: dict[dict[dict[list[float]]]],
                      list_type: str):
@@ -63,7 +83,8 @@ def aggregate(data: dict, aggregator: Callable, depth: int =1) -> dict:
     if depth == 0:
         aggregated = data
     elif depth == 1:
-        aggregated = {key: aggregator(value) for key, value in data.items()}
+        aggregated = {key: aggregator(value)
+                      for key, value in sorted(data.items())}
     else:
         aggregated = {key: aggregate(value, aggregator, depth - 1)
                       for key, value in data.items()}
@@ -75,18 +96,59 @@ def join(data: dict, depth: int =1) -> list:
     if depth == 1:
         return list(data.values())
     result = []
-    return [join(value, depth-1) for value in data.values()]
+    return [join(value, depth-1) for value in sorted(data.values())]
 
-# pprint(data)
-
-for list_type in ("rand_list", "iota", "reverse_iota"):
-    for algo_name in ALGORITHMS_NAMES:
-        print(algo_name, ":")
-        values = aggregate(data[list_type][algo_name],
-                           std_dev,
-                           1)
-        pprint(values)
+def zeroes_to_nan(lst: list[int | float]) -> list[int | float]:
+    return list(map(lambda x: float('nan') if x == 0 else x, lst))
 
 
+# colors_cycler = cycler(color=['xkcd:black',
+#                               'xkcd:electric blue',
+#                               'xkcd:light blue',
+#                               'xkcd:teal',
+#                               'xkcd:green',
+#                               'xkcd:light green',
+#                               'xkcd:periwinkle',
+#                               'xkcd:lilac',
+#                               'xkcd:purple',
+#                               'xkcd:pink',
+#                               'xkcd:pink purple',
+#                               'xkcd:slate blue',
+#                               'xkcd:gold',
+#                               'xkcd:red',
+#                               ])
+colors = cycler(color=mpl.colormaps['tab10'](range(20)))
+plt.rc('lines', linewidth=2)
+plt.rc('axes', prop_cycle=colors)
+
+
+french_for = {
+        "reverse_iota": "liste décroissante",
+        "iota": "liste croissante",
+        "rand_list": "liste aléatoire"
+        }
+for list_type in ("rand_list", "iota", "reverse_iota",):
+    for algo_name, french_name in zip(ALGORITHMS_NAMES, FRENCH_ALGO_NAMES):
+        averages = (aggregate(data[list_type][algo_name],
+                              average,
+                              1))
+        averages = join(averages)
+        averages = zeroes_to_nan(averages)
+        std_devs = join(aggregate(data[list_type][algo_name],
+                                  std_dev,
+                                  1))
+        std_devs = zeroes_to_nan(std_devs)
+        areas = list(map(lambda r: r,
+                         std_devs))
+        X_ticks = list(sorted(data[list_type][algo_name].keys()))
+        plt.plot(X_ticks, averages,
+                 label=french_name + ", " + french_for[list_type],
+                 alpha=0.6)
+        plt.scatter(X_ticks, averages, marker="o", s=areas, alpha=0.5)
+
+plt.legend(loc="upper center")
+
+# plt.savefig("../img/final/random_list.png")
+plt.show()
 
 
