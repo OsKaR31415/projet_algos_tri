@@ -4,3 +4,4 @@
 
 # cpython bytecode
 __pycache__
+.DS_Store
