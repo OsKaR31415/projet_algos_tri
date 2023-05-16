@@ -13,7 +13,7 @@ ALGORITHMS_NAMES = ['recursive_insertion_sort', 'iterative_insertion_sort',
 
 # ALGORITHMS_NAMES = ['bucket_sort', 'quick_sort', 'bubble_sort']
 
-title = "all reverse_iota 200s"
+title = "all random_list 60s"
 file_name = 'saved_statistics/' + title + '.pkl'
 
 with open(file_name, 'rb') as file:
