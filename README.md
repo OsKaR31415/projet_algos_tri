@@ -21,7 +21,7 @@
     - fonctions statistiques (`average`, `std_dev`, `avg_dev`) : Oscar Plaisant
     - fonctions de profilage (`execution_time`, `return_execution_time`) : Maximilien Poncet
     - fonction de sampling (`test execution times`) : Oscar Plaisant
- - [Profilage, manipulation et enregistrement des donnés](src/statistics.py) : Oscar Plaisant
+ - [manipulation et enregistrement des donnés](src/statistics.py) : Oscar Plaisant
  - [Affichage des données](src/plotting.py) : Oscar Plaisant
  - Rédaction du [compte rendu](compte_rendu.pdf) : Oscar Plaisant
 
