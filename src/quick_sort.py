@@ -1,6 +1,9 @@
 from linked_list import List
 from utils import *
 
+from sys import setrecursionlimit
+setrecursionlimit(11000)  # change the maximum number of recursive calls
+
 
 def quick_sort(lst: List, depth=1):
     """# {{{

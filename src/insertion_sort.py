@@ -78,8 +78,10 @@ def time_recursive_insertion_sort(sample: List) -> float:
 
 
 if __name__ == "__main__":
-    print_data_for(iterative_insertion_sort)
+    # print_data_for(iterative_insertion_sort)
     # print_data_for(recursive_insertion_sort)
+    L = random_list(100000)
+    recursive_insertion_sort(L)
 
 
 

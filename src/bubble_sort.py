@@ -69,5 +69,6 @@ def time_in_place_bubble_sort(sample: List):
 
 
 if __name__ == "__main__":
+    print_data_for(in_place_bubble_sort)
     print_data_for(bubble_sort)
 
